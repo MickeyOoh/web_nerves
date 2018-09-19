@@ -9,10 +9,12 @@ defmodule Firmware.Application do
   @interface Application.get_env(:firmware, :interface, :wlan0)
 
   def start(_type, _args) do
+    IO.puts "start firmware (#{@interface}) 003"
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Firmware.Supervisor]
     Supervisor.start_link(children(@target), opts)
+    |> IO.inspect
   end
 
   # List all child processes to be supervised

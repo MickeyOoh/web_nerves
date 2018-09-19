@@ -46,6 +46,12 @@ defmodule WebWeb.Endpoint do
   configuration should be loaded from the system environment.
   """
   def init(_key, config) do
+    {:ok, ifs} = :inet.getif()
+    ips = Enum.map(ifs, fn {ip, _broadaddr, _mask} -> ip end)
+    ipstr = Enum.at(ips,0) |> Tuple.to_list() |> Enum.join(".")
+    [port: port] = config[:http]  
+    IO.puts "ips => #{inspect ips}"  
+    IO.puts "*** #{to_string(__MODULE__)} => http://#{ipstr}:#{port}"
     if config[:load_from_system_env] do
       port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
       {:ok, Keyword.put(config, :http, [:inet6, port: port])}

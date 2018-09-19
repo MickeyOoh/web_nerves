@@ -15,7 +15,9 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 config :shoehorn,
   init: [:nerves_runtime],
   app: Mix.Project.config()[:app]
-  
+
+config :logger, level: :debug
+
 key_mgmt = System.get_env("NERVES_NETWORK_KEY_MGMT") || "WPA-PSK"
 
 config :nerves_network, :default,
@@ -38,8 +40,8 @@ config :web, WebWeb.Endpoint,
   secret_key_base: "9w9MI64d1L8mjw+tzTmS3qgJTJqYNGJ1dNfn4S/Zm6BbKAmo2vAyVW7CgfI3CpII",
   root: Path.dirname(__DIR__),
   server: true,
-  render_errors: [accepts: ~w(html json)],
-  pubsub: [name: Nerves.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [ivew: WebWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Web.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Use shoehorn to start the main application. See the shoehorn
 # docs for separating out critical OTP applications such as those
